@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProjectsModule } from './projects/projects.module';
+import { PcmtMasterModule } from './pcmt-master/pcmt-master.module';
 import { DetailsModule } from './details/details.module';
 
 @Module({
@@ -23,7 +23,7 @@ import { DetailsModule } from './details/details.module';
         entities: [configService.get<string>('DB_ENTITIES')],
       }),
     }),
-    ProjectsModule,
+    PcmtMasterModule,
     DetailsModule,
   ],
   controllers: [AppController],
