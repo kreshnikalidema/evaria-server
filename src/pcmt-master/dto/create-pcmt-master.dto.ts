@@ -1,84 +1,104 @@
-import { IsString, IsNumber, IsOptional, IsNotEmpty } from 'class-validator';
-import { IPcmtMaster } from '../pcmt-master.interface';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsDate,
+  IsOptional,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+import { CreatePcmtCoDetailDto } from '@/pcmt-co-details/dto/create-pcmt-co-detail.dto';
 
-export class CreatePcmtMasterDto implements IPcmtMaster {
-  @IsNumber()
-  @IsOptional()
-  id: number;
-
-  @IsString()
+export class CreatePcmtMasterDto {
   @IsNotEmpty()
+  @IsString()
   pvNumber: string;
 
-  @IsNumber()
   @IsNotEmpty()
+  @IsNumber()
   incrementalId: number;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   projectId: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   projectName: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   clientId: string;
 
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
   disciplineId: string;
 
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
   currencyCode: string;
 
-  @IsString()
   @IsNotEmpty()
+  @IsString()
   userInsert: string;
 
-  @IsString()
-  @IsOptional()
-  userUpdateLast: string;
+  @IsNotEmpty()
+  @IsDate()
+  dtInsert: Date;
 
+  @IsNotEmpty()
   @IsString()
-  @IsOptional()
-  varianceNumber: string;
-
-  @IsString()
-  @IsOptional()
-  revNo: string;
-
-  @IsString()
-  @IsOptional()
-  pvTitle: string;
-
-  @IsNumber()
-  @IsOptional()
-  clientRevNo: number;
-
-  @IsString()
-  @IsOptional()
-  dtModifiedStr: string;
-
-  @IsString()
-  @IsOptional()
-  cobraPeriodDate: string;
-
-  @IsString()
-  @IsOptional()
   dtInsertUtc: string;
 
-  @IsString()
   @IsOptional()
+  @IsString()
+  userUpdateLast: string;
+
+  @IsOptional()
+  @IsDate()
+  dtUpdateLast: Date;
+
+  @IsNotEmpty()
+  @IsString()
+  varianceNumber: string;
+
+  @IsNotEmpty()
+  @IsString()
+  revNo: string;
+
+  @IsNotEmpty()
+  @IsString()
+  pvTitle: string;
+
+  @IsOptional()
+  @IsNumber()
+  clientRevNo: number;
+
+  @IsOptional()
+  @IsString()
+  dtModifiedStr: string;
+
+  @IsOptional()
+  @IsString()
+  cobraPeriodDate: string;
+
+  @IsOptional()
+  @IsString()
   originalCostType: string;
 
+  @IsNotEmpty()
   @IsNumber()
-  @IsOptional()
   isFlowRunning: number;
 
-  @IsString()
   @IsOptional()
+  @IsString()
   currentWorkStatusId: string;
+
+  @IsOptional()
+  @IsString()
+  dataJson: string;
+
+  @ValidateNested({ each: true })
+  @Type(() => CreatePcmtCoDetailDto)
+  coDetails: CreatePcmtCoDetailDto[];
 }

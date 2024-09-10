@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PcmtMasterModule } from './pcmt-master/pcmt-master.module';
-import { DetailsModule } from './details/details.module';
+import { DetailsModule } from './pcmt-co-details/pcmt-co-details.module';
 
 @Module({
   imports: [

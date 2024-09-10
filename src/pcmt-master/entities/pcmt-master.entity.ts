@@ -4,11 +4,15 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
+  BeforeUpdate,
+  OneToMany,
 } from 'typeorm';
-import { IPcmtMaster } from '../pcmt-master.interface';
+import { PcmtCoDetail } from '@/pcmt-co-details/entities/pcmt-co-detail.entity';
 
-@Entity()
-export class PcmtMaster implements IPcmtMaster {
+
+@Entity('PCMT_MASTER')
+export class PcmtMaster {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -36,14 +40,20 @@ export class PcmtMaster implements IPcmtMaster {
   @Column()
   userInsert: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn()
   dtInsert: Date;
+
+  @Column()
+  dtInsertUtc: string;
 
   @Column()
   userUpdateLast: string;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn()
   dtUpdateLast: Date;
+
+  @Column({ nullable: true })
+  clientRevNo: number;
 
   @Column()
   varianceNumber: string;
@@ -54,24 +64,39 @@ export class PcmtMaster implements IPcmtMaster {
   @Column()
   pvTitle: string;
 
-  @Column()
-  clientRevNo: number;
-
-  @Column()
+  @Column({ nullable: true })
   dtModifiedStr: string;
 
-  @Column()
+  @Column({ nullable: true })
   cobraPeriodDate: string;
 
-  @Column()
-  dtInsertUtc: string;
-
-  @Column()
+  @Column({ nullable: true })
   originalCostType: string;
 
   @Column()
   isFlowRunning: number;
 
-  @Column()
+  @Column({ nullable: true })
   currentWorkStatusId: string;
+
+  @Column({ type: 'clob', nullable: true })
+  dataJson: string;
+
+  @OneToMany(() => PcmtCoDetail, (coDetail) => coDetail.pcmtMaster, {
+    cascade: true,
+    orphanedRowAction: 'delete',
+    eager: true,
+  })
+  coDetails: PcmtCoDetail[];
+
+  @BeforeInsert()
+  setInsertUtcTimestamp() {
+    this.dtInsertUtc = new Date().toISOString();
+    this.userUpdateLast = new Date().toISOString();
+  }
+
+  @BeforeUpdate()
+  setUpdateUtcTimestamp() {
+    this.userUpdateLast = new Date().toISOString();
+  }
 }
