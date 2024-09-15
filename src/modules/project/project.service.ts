@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  Pagination,
+  PaginationParams,
+  PaginationResponse,
+} from '@/helpers/pagination';
 import { Project } from './entities/project.entity';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -14,8 +19,14 @@ export class ProjectService {
     private readonly dataSource: DataSource,
   ) {}
 
-  async findAll(): Promise<Project[]> {
-    return await this.projectRepository.find();
+  async findAll(
+    params: PaginationParams<Project>,
+  ): Promise<PaginationResponse<Project>> {
+    const options = Pagination.getOptions<Project>(params);
+
+    const [rows, count] = await this.projectRepository.findAndCount(params);
+
+    return Pagination.getResponse(rows, count, options);
   }
 
   async findOne(id: number): Promise<Project> {
