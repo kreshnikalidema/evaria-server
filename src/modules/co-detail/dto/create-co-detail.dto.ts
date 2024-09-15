@@ -5,9 +5,9 @@ import {
   IsOptional,
   IsDate,
 } from 'class-validator';
-import { CreatePcmtMasterDto } from '@/pcmt-master/dto/create-pcmt-master.dto';
+import { CreateProjectDto } from '@/modules/project/dto/create-project.dto';
 
-export class CreatePcmtCoDetailDto {
+export class CreateCoDetailDto {
   @IsNotEmpty()
   @IsString()
   projectId: string;
@@ -189,5 +189,5 @@ export class CreatePcmtCoDetailDto {
   originalCostType: string;
 
   @IsOptional()
-  pcmtMaster: CreatePcmtMasterDto;
+  project: CreateProjectDto;
 }

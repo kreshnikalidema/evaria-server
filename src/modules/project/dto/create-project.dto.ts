@@ -7,9 +7,9 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { CreatePcmtCoDetailDto } from '@/pcmt-co-details/dto/create-pcmt-co-detail.dto';
+import { CreateCoDetailDto } from '@/modules/co-detail/dto/create-co-detail.dto';
 
-export class CreatePcmtMasterDto {
+export class CreateProjectDto {
   @IsNotEmpty()
   @IsString()
   pvNumber: string;
@@ -99,6 +99,6 @@ export class CreatePcmtMasterDto {
   dataJson: string;
 
   @ValidateNested({ each: true })
-  @Type(() => CreatePcmtCoDetailDto)
-  coDetails: CreatePcmtCoDetailDto[];
+  @Type(() => CreateCoDetailDto)
+  coDetails: CreateCoDetailDto[];
 }

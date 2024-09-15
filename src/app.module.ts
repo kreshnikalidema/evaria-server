@@ -3,8 +3,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PcmtMasterModule } from './pcmt-master/pcmt-master.module';
-import { DetailsModule } from './pcmt-co-details/pcmt-co-details.module';
+import { ProjectModule } from './modules/project/project.module';
+import { DetailsModule } from './modules/co-detail/co-detail.module';
+import { AttachmentModule } from './modules/attachment/attachment.module';
 
 @Module({
   imports: [
@@ -23,8 +24,9 @@ import { DetailsModule } from './pcmt-co-details/pcmt-co-details.module';
         entities: [configService.get<string>('DB_ENTITIES')],
       }),
     }),
-    PcmtMasterModule,
+    ProjectModule,
     DetailsModule,
+    AttachmentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

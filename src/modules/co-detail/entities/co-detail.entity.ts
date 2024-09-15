@@ -8,10 +8,10 @@ import {
   BeforeInsert,
   BeforeUpdate,
 } from 'typeorm';
-import { PcmtMaster } from '@/pcmt-master/entities/pcmt-master.entity';
+import { Project } from '@/modules/project/entities/project.entity';
 
 @Entity('PCMT_CO_DETAILS')
-export class PcmtCoDetail {
+export class CoDetail {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -150,8 +150,8 @@ export class PcmtCoDetail {
   @Column({ nullable: true })
   originalCostType: string;
 
-  @ManyToOne(() => PcmtMaster, (pcmtMaster) => pcmtMaster.coDetails)
-  pcmtMaster: PcmtMaster;
+  @ManyToOne(() => Project, (project) => project.coDetails)
+  project: Project;
 
   @BeforeInsert()
   setInsertUtc() {

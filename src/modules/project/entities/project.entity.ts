@@ -1,17 +1,18 @@
 import {
   Entity,
-  Column,
   PrimaryGeneratedColumn,
+  Column,
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
   BeforeUpdate,
   OneToMany,
 } from 'typeorm';
-import { PcmtCoDetail } from '@/pcmt-co-details/entities/pcmt-co-detail.entity';
+import { CoDetail } from '@/modules/co-detail/entities/co-detail.entity';
+import { Attachment } from '@/modules/attachment/entities/attachment.entity';
 
-@Entity('PCMT_MASTER')
-export class PcmtMaster {
+@Entity()
+export class Project {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -81,12 +82,17 @@ export class PcmtMaster {
   @Column({ type: 'clob', nullable: true })
   dataJson: string;
 
-  @OneToMany(() => PcmtCoDetail, (coDetail) => coDetail.pcmtMaster, {
+  @OneToMany(() => CoDetail, (coDetail) => coDetail.project, {
     cascade: true,
     orphanedRowAction: 'delete',
     eager: true,
   })
-  coDetails: PcmtCoDetail[];
+  coDetails: CoDetail[];
+
+  @OneToMany(() => Attachment, (attachment) => attachment.project, {
+    eager: true,
+  })
+  attachments: Attachment[];
 
   @BeforeInsert()
   setInsertUtcTimestamp() {
