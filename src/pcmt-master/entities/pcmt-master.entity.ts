@@ -10,7 +10,6 @@ import {
 } from 'typeorm';
 import { PcmtCoDetail } from '@/pcmt-co-details/entities/pcmt-co-detail.entity';
 
-
 @Entity('PCMT_MASTER')
 export class PcmtMaster {
   @PrimaryGeneratedColumn()
