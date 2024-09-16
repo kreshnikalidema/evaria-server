@@ -2,14 +2,15 @@ import { PaginationParams, PaginationResponse } from './pagination.interfaces';
 
 export class Pagination {
   static getOptions<T>(params: PaginationParams<T>): PaginationParams<T> {
-    let { page = 1, limit = 10, ...options } = params;
+    let { page = 1, limit = 10, ...where } = params;
 
     page = Number(page);
     limit = Number(limit);
 
     const skip = (page - 1) * limit;
 
-    return { ...options, skip, take: limit };
+    // @ts-ignore
+    return { where, skip, take: limit };
   }
 
   static getResponse<T>(

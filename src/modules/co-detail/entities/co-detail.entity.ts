@@ -16,9 +16,6 @@ export class CoDetail {
   id: number;
 
   @Column()
-  projectId: string;
-
-  @Column()
   pvNumber: string;
 
   @Column()
@@ -150,7 +147,9 @@ export class CoDetail {
   @Column({ nullable: true })
   originalCostType: string;
 
-  @ManyToOne(() => Project, (project) => project.coDetails)
+  @ManyToOne(() => Project, (project) => project.coDetails, {
+    onDelete: 'CASCADE',
+  })
   project: Project;
 
   @BeforeInsert()

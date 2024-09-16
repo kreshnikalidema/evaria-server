@@ -70,6 +70,8 @@ export class ProjectService {
 
       const project = await this.findOne(id);
 
+      console.log(project.projectId);
+
       Object.assign(project, dto);
 
       const savedProject = await queryRunner.manager.save(project);

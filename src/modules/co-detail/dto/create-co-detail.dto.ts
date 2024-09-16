@@ -10,10 +10,6 @@ import { CreateProjectDto } from '@/modules/project/dto/create-project.dto';
 export class CreateCoDetailDto {
   @IsNotEmpty()
   @IsString()
-  projectId: string;
-
-  @IsNotEmpty()
-  @IsString()
   pvNumber: string;
 
   @IsNotEmpty()
