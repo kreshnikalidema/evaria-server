@@ -63,7 +63,9 @@ export class AttachmentService {
 
     const blockBlobClient = containerClient.getBlockBlobClient(attachment.name);
 
-    await blockBlobClient.delete();
+    if (await blockBlobClient.exists()) {
+      await blockBlobClient.delete();
+    }
 
     await this.attachmentRepository.delete(attachmentId);
   }

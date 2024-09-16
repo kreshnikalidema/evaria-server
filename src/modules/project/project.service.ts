@@ -22,12 +22,17 @@ export class ProjectService {
 
   async findAll(
     params: PaginationParams<Project>,
+    currentUser: string,
   ): Promise<PaginationResponse<Project>> {
     const options = Pagination.getOptions<Project>(params);
 
     const [rows, count] = await this.projectRepository.findAndCount(options);
 
-    return Pagination.getResponse(rows, count, options);
+    const items = rows.map((row) =>
+      Object.assign({}, row, { hasPermission: row.userInsert === currentUser }),
+    ) as unknown as Project[];
+
+    return Pagination.getResponse(items, count, options);
   }
 
   async findOne(id: number): Promise<Project> {
@@ -69,8 +74,6 @@ export class ProjectService {
       await queryRunner.startTransaction();
 
       const project = await this.findOne(id);
-
-      console.log(project.projectId);
 
       Object.assign(project, dto);
 

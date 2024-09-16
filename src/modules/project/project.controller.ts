@@ -7,6 +7,7 @@ import {
   Patch,
   Param,
   Delete,
+  Headers,
 } from '@nestjs/common';
 import { PaginationParams } from '@/helpers/pagination';
 import { ProjectService } from './project.service';
@@ -19,8 +20,11 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Get()
-  findAll(@Query() params: PaginationParams<Project>) {
-    return this.projectService.findAll(params);
+  findAll(
+    @Query() params: PaginationParams<Project>,
+    @Headers('CURRENT-USER') currentUser: string,
+  ) {
+    return this.projectService.findAll(params, currentUser);
   }
 
   @Get(':id')
