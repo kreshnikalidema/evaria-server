@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
   Pagination,
   PaginationParams,
@@ -15,7 +16,7 @@ export class ProjectService {
   constructor(
     @InjectRepository(Project)
     private readonly projectRepository: Repository<Project>,
-
+    private readonly eventEmitter: EventEmitter2,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -48,6 +49,9 @@ export class ProjectService {
       const savedProject = await queryRunner.manager.save(project);
 
       await queryRunner.commitTransaction();
+
+      this.eventEmitter.emit('project.created', savedProject);
+
       return savedProject;
     } catch (error) {
       await queryRunner.rollbackTransaction();
@@ -68,11 +72,13 @@ export class ProjectService {
 
       Object.assign(project, dto);
 
-      await queryRunner.manager.save(project);
+      const savedProject = await queryRunner.manager.save(project);
 
       await queryRunner.commitTransaction();
 
-      return project;
+      this.eventEmitter.emit('project.updated', savedProject);
+
+      return savedProject;
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;
@@ -85,6 +91,8 @@ export class ProjectService {
     const project = await this.findOne(id);
 
     await this.projectRepository.remove(project);
+
+    this.eventEmitter.emit('project.removed', project);
 
     return project;
   }
