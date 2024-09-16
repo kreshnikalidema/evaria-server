@@ -5,7 +5,7 @@ import {
   UploadedFile,
   Param,
   Delete,
-  ParseIntPipe
+  ParseIntPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AttachmentService } from './attachment.service';

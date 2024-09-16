@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { ProjectModule } from './modules/project/project.module';
 import { DetailsModule } from './modules/co-detail/co-detail.module';
 import { AttachmentModule } from './modules/attachment/attachment.module';
+import { MailModule } from './modules/mail/mail.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AttachmentModule } from './modules/attachment/attachment.module';
     ProjectModule,
     DetailsModule,
     AttachmentModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
