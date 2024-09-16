@@ -2,11 +2,14 @@ import { PaginationParams, PaginationResponse } from './pagination.interfaces';
 
 export class Pagination {
   static getOptions<T>(params: PaginationParams<T>): PaginationParams<T> {
-    const { page = 1, limit = 10, ...options } = params;
+    let { page = 1, limit = 10, ...options } = params;
+
+    page = Number(page);
+    limit = Number(limit);
 
     const skip = (page - 1) * limit;
 
-    return { ...options, skip, limit };
+    return { ...options, skip, take: limit };
   }
 
   static getResponse<T>(
@@ -14,18 +17,18 @@ export class Pagination {
     count: number,
     options: PaginationParams<T>,
   ): PaginationResponse<T> {
-    const { skip, limit } = options;
+    const { skip, take } = options;
 
-    const page = Math.floor(skip / limit) + 1;
+    const page = Math.floor(skip / take) + 1;
 
-    const totalPages = Math.ceil(count / limit);
+    const totalPages = Math.ceil(count / take);
 
     return {
       items: rows,
       meta: {
         itemCount: rows.length,
         totalItems: count,
-        itemsPerPage: limit,
+        itemsPerPage: take,
         totalPages,
         currentPage: page,
       },

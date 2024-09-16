@@ -1,13 +1,16 @@
 import {
   Controller,
   Get,
+  Query,
   Post,
   Body,
   Patch,
   Param,
   Delete,
 } from '@nestjs/common';
+import { PaginationParams } from '@/helpers/pagination';
 import { ProjectService } from './project.service';
+import { Project } from './entities/project.entity';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 
@@ -16,8 +19,8 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Get()
-  findAll() {
-    return this.projectService.findAll();
+  findAll(@Query() params: PaginationParams<Project>) {
+    return this.projectService.findAll(params);
   }
 
   @Get(':id')

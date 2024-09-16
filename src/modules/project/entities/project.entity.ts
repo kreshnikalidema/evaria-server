@@ -85,12 +85,12 @@ export class Project {
   @OneToMany(() => CoDetail, (coDetail) => coDetail.project, {
     cascade: true,
     orphanedRowAction: 'delete',
-    eager: true,
+    // eager: true,
   })
   coDetails: CoDetail[];
 
   @OneToMany(() => Attachment, (attachment) => attachment.project, {
-    eager: true,
+    // eager: true,
   })
   attachments: Attachment[];
 
