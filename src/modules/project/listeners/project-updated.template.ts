@@ -30,7 +30,7 @@ export const projectUpdatedTemplate = `
     <p><strong>Currency Code:</strong> {{currencyCode}}</p>
     <p><strong>User Insert:</strong> {{userInsert}}</p>
     <p><strong>Date Inserted:</strong> {{dtInsert}}</p>
-    <h2>Change Orders (CO Details)</h2>
+    <h2>CO Details</h2>
     <table>
       <thead>
         <tr>

@@ -16,14 +16,14 @@ export class MailService {
     });
   }
 
-  async sendMail(subject: string, text: string): Promise<void> {
+  async sendMail(subject: string, html: string): Promise<void> {
     const from = this.configService.get<string>('MAIL_SERVICE_USER');
 
     await this.transporter.sendMail({
       from: from,
       to: from,
       subject,
-      text,
+      html,
     });
   }
 }
