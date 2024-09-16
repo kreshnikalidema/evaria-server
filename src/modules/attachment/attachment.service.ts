@@ -11,7 +11,7 @@ import { CreateAttachmentDto } from './dto/create-attachment.dto';
 export class AttachmentService {
   private readonly blobServiceClient: BlobServiceClient;
 
-  private readonly containerName = 'your-container-name';
+  private readonly containerName = 'main-container';
 
   constructor(
     @InjectRepository(Attachment)
@@ -19,9 +19,9 @@ export class AttachmentService {
     private projectService: ProjectService,
     private configService: ConfigService,
   ) {
-    // this.blobServiceClient = BlobServiceClient.fromConnectionString(
-    //   this.configService.get<string>('AZURE_BLOB_CONNECTION_STRING'),
-    // );
+    this.blobServiceClient = BlobServiceClient.fromConnectionString(
+      this.configService.get<string>('AZURE_BLOB_CONNECTION_STRING'),
+    );
   }
 
   async upload(
@@ -50,5 +50,21 @@ export class AttachmentService {
     dto.project = project;
 
     return this.attachmentRepository.save(dto);
+  }
+
+  async delete(attachmentId: number): Promise<void> {
+    const attachment = await this.attachmentRepository.findOneOrFail({
+      where: { id: attachmentId },
+    });
+
+    const containerClient = this.blobServiceClient.getContainerClient(
+      this.containerName,
+    );
+
+    const blockBlobClient = containerClient.getBlockBlobClient(attachment.name);
+
+    await blockBlobClient.delete();
+
+    await this.attachmentRepository.delete(attachmentId);
   }
 }

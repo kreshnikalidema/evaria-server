@@ -24,7 +24,7 @@ export class ProjectService {
   ): Promise<PaginationResponse<Project>> {
     const options = Pagination.getOptions<Project>(params);
 
-    const [rows, count] = await this.projectRepository.findAndCount(params);
+    const [rows, count] = await this.projectRepository.findAndCount(options);
 
     return Pagination.getResponse(rows, count, options);
   }

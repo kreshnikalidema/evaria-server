@@ -4,6 +4,8 @@ import {
   UseInterceptors,
   UploadedFile,
   Param,
+  Delete,
+  ParseIntPipe
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AttachmentService } from './attachment.service';
@@ -24,5 +26,10 @@ export class AttachmentController {
     const fileName = file.originalname;
 
     return this.attachmentService.upload(projectId, fileBuffer, fileName);
+  }
+
+  @Delete(':id')
+  async deleteAttachment(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.attachmentService.delete(id);
   }
 }
